@@ -1,6 +1,6 @@
 import { Tabs } from 'expo-router';
 import { useAuth } from '@/contexts/AuthContext';
-import { Home, Package, Search, Truck, MapPin, User } from 'lucide-react-native';
+import { Home, Search, Send, Truck, MapPin, User } from 'lucide-react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function TabLayout() {
@@ -53,7 +53,7 @@ export default function TabLayout() {
             name="send"
             options={{
               title: 'Send',
-              tabBarIcon: ({ size, color }) => <Package size={size} color={color} />,
+              tabBarIcon: ({ size, color }) => <Send size={size} color={color} />,
             }}
           />
           <Tabs.Screen
