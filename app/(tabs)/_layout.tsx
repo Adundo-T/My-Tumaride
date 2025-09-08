@@ -1,9 +1,11 @@
 import { Tabs } from 'expo-router';
 import { useAuth } from '@/contexts/AuthContext';
-import { Chrome as Home, Package, Search, Truck, MapPin, User } from 'lucide-react-native';
+import { Home, Package, Search, Truck, MapPin, User } from 'lucide-react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function TabLayout() {
   const { user } = useAuth();
+  const insets = useSafeAreaInsets();
 
   if (!user?.role) {
     return null;
@@ -20,17 +22,21 @@ export default function TabLayout() {
           borderTopColor: '#e2e8f0',
           borderTopWidth: 1,
           paddingTop: 8,
-          paddingBottom: 8,
-          height: 70,
+          paddingBottom: insets.bottom + 8,
+          height: 70 + insets.bottom,
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: -2 },
+          shadowOpacity: 0.1,
+          shadowRadius: 4,
+          elevation: 8,
         },
         tabBarLabelStyle: {
           fontSize: 12,
           fontWeight: '600',
           marginTop: 4,
         },
-        tabBarActiveTintColor: '#3b82f6',
         tabBarActiveTintColor: '#22c55e',
-        tabBarInactiveTintColor: '#15803d',
+        tabBarInactiveTintColor: '#64748b',
       }}
     >
       <Tabs.Screen
@@ -40,7 +46,7 @@ export default function TabLayout() {
           tabBarIcon: ({ size, color }) => <Home size={size} color={color} />,
         }}
       />
-      
+
       {isSender ? (
         <>
           <Tabs.Screen
@@ -76,7 +82,7 @@ export default function TabLayout() {
           />
         </>
       )}
-      
+
       <Tabs.Screen
         name="profile"
         options={{
@@ -85,40 +91,31 @@ export default function TabLayout() {
         }}
       />
 
-      {/* Hide screens not relevant to current role */}
-      {isSender && (
-        <>
-          <Tabs.Screen
-            name="find"
-            options={{
-              href: null,
-            }}
-          />
-          <Tabs.Screen
-            name="deliveries"
-            options={{
-              href: null,
-            }}
-          />
-        </>
-      )}
-      
-      {!isSender && (
-        <>
-          <Tabs.Screen
-            name="send"
-            options={{
-              href: null,
-            }}
-          />
-          <Tabs.Screen
-            name="track"
-            options={{
-              href: null,
-            }}
-          />
-        </>
-      )}
+      {/* Define all screens but only show relevant ones in tabs */}
+      <Tabs.Screen
+        name="find"
+        options={{
+          href: isSender ? null : undefined,
+        }}
+      />
+      <Tabs.Screen
+        name="deliveries"
+        options={{
+          href: isSender ? null : undefined,
+        }}
+      />
+      <Tabs.Screen
+        name="send"
+        options={{
+          href: isSender ? undefined : null,
+        }}
+      />
+      <Tabs.Screen
+        name="track"
+        options={{
+          href: isSender ? undefined : null,
+        }}
+      />
     </Tabs>
   );
 }

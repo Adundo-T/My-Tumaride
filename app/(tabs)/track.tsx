@@ -47,8 +47,7 @@ export default function TrackScreen() {
             onChangeText={setTrackingNumber}
           />
         </View>
-        <TouchableOpacity style={styles.searchButton}>
-        <TouchableOpacity 
+        <TouchableOpacity
           style={styles.searchButton}
           activeOpacity={0.8}
         >
@@ -123,8 +122,6 @@ export default function TrackScreen() {
 }
 
 const styles = StyleSheet.create({
-        }
-  )
   container: {
     flex: 1,
     backgroundColor: '#f0fdf4',
